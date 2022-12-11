@@ -1,7 +1,7 @@
-use std::collections::BinaryHeap;
-use std::{fs, error::Error};
-use std::vec::Vec;
 use crate::aoc_core;
+use std::collections::BinaryHeap;
+use std::vec::Vec;
+use std::{error::Error, fs};
 
 fn string_to_vector_line_break(input: String) -> Result<Vec<Vec<i32>>, Box<dyn Error>> {
     let split = input.lines();
@@ -17,9 +17,8 @@ fn string_to_vector_line_break(input: String) -> Result<Vec<Vec<i32>>, Box<dyn E
             temp.push(int_line)
         }
     }
-    return Ok(output)
+    return Ok(output);
 }
-
 
 pub fn solve() -> Result<aoc_core::Solution, Box<dyn Error>> {
     let input = fs::read_to_string("data/day_1/1.txt")?;
@@ -33,7 +32,7 @@ pub fn solve() -> Result<aoc_core::Solution, Box<dyn Error>> {
         }
     }
 
-    let mut heap:BinaryHeap<i32> = BinaryHeap::new();
+    let mut heap: BinaryHeap<i32> = BinaryHeap::new();
     for elf in input_vec.iter() {
         let elf_sum = elf.iter().sum();
         heap.push(elf_sum)
@@ -43,6 +42,8 @@ pub fn solve() -> Result<aoc_core::Solution, Box<dyn Error>> {
     sum += heap.pop().unwrap();
     sum += heap.pop().unwrap();
 
-    Ok(aoc_core::Solution{part_1:max_sum, part_2: sum})
-
+    Ok(aoc_core::Solution {
+        part_1: max_sum,
+        part_2: sum,
+    })
 }

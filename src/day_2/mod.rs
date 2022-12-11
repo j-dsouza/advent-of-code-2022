@@ -1,19 +1,19 @@
-use std::fmt::{Display, self};
-use std::{fs, error::Error};
-use std::vec::Vec;
 use crate::aoc_core;
+use std::fmt::{self, Display};
+use std::vec::Vec;
+use std::{error::Error, fs};
 
 #[derive(PartialEq, Clone, Copy)]
 pub enum Hand {
     Rock,
     Paper,
-    Scissors
+    Scissors,
 }
 
 pub enum MatchResult {
     Win,
     Lose,
-    Draw
+    Draw,
 }
 
 impl Hand {
@@ -21,7 +21,7 @@ impl Hand {
         match &*self {
             Hand::Rock => Self::Scissors,
             Hand::Paper => Self::Rock,
-            Hand::Scissors => Self::Paper
+            Hand::Scissors => Self::Paper,
         }
     }
 
@@ -29,7 +29,7 @@ impl Hand {
         match &*self {
             Self::Rock => Self::Paper,
             Self::Paper => Self::Scissors,
-            Self::Scissors => Self::Rock
+            Self::Scissors => Self::Rock,
         }
     }
 
@@ -45,7 +45,7 @@ impl Hand {
         match self {
             Hand::Rock => 1,
             Hand::Paper => 2,
-            Hand::Scissors => 3
+            Hand::Scissors => 3,
         }
     }
 }
@@ -55,20 +55,18 @@ impl Display for Hand {
         let name = match *self {
             Hand::Rock => "Rock",
             Hand::Paper => "Paper",
-            Hand::Scissors => "Scissors"
+            Hand::Scissors => "Scissors",
         };
         write!(f, "{}", name)
     }
-
 }
 
-
 impl MatchResult {
-    pub fn value(&self) -> i32{
+    pub fn value(&self) -> i32 {
         match self {
             MatchResult::Win => 6,
             MatchResult::Draw => 3,
-            MatchResult::Lose => 0
+            MatchResult::Lose => 0,
         }
     }
 
@@ -76,11 +74,10 @@ impl MatchResult {
         match self {
             MatchResult::Draw => other,
             MatchResult::Lose => other.beats(),
-            MatchResult::Win => other.loses()
+            MatchResult::Win => other.loses(),
         }
     }
 }
-
 
 fn string_to_vector_line_break(input: String) -> Result<Vec<String>, Box<dyn Error>> {
     let split = input.lines();
@@ -90,7 +87,7 @@ fn string_to_vector_line_break(input: String) -> Result<Vec<String>, Box<dyn Err
         output.push(line.to_string())
     }
 
-    return Ok(output)
+    return Ok(output);
 }
 
 fn string_to_hands(input: String) -> Result<(Hand, Hand), Box<dyn Error>> {
@@ -102,17 +99,17 @@ fn string_to_hands(input: String) -> Result<(Hand, Hand), Box<dyn Error>> {
         "A" => Hand::Rock,
         "B" => Hand::Paper,
         "C" => Hand::Scissors,
-        _ => panic!("Error")
+        _ => panic!("Error"),
     };
 
     let own_hand = match own_hand_str {
         "X" => Hand::Rock,
         "Y" => Hand::Paper,
         "Z" => Hand::Scissors,
-        _ => panic!("Error")
+        _ => panic!("Error"),
     };
 
-    return Ok((own_hand, other_hand))
+    return Ok((own_hand, other_hand));
 }
 
 fn string_to_hand_result(input: String) -> Result<(MatchResult, Hand), Box<dyn Error>> {
@@ -124,17 +121,17 @@ fn string_to_hand_result(input: String) -> Result<(MatchResult, Hand), Box<dyn E
         "A" => Hand::Rock,
         "B" => Hand::Paper,
         "C" => Hand::Scissors,
-        _ => panic!("Error")
+        _ => panic!("Error"),
     };
 
     let match_result = match match_result_str {
         "X" => MatchResult::Lose,
         "Y" => MatchResult::Draw,
         "Z" => MatchResult::Win,
-        _ => panic!("Error")
+        _ => panic!("Error"),
     };
 
-    return Ok((match_result, other_hand))
+    return Ok((match_result, other_hand));
 }
 
 fn get_result(own_hand: Hand, other_hand: Hand) -> i32 {
@@ -150,7 +147,6 @@ fn get_result_p2(result: MatchResult, other_hand: Hand) -> i32 {
 
     own_hand.value() + result.value()
 }
-
 
 pub fn solve() -> Result<aoc_core::Solution, Box<dyn Error>> {
     let input = fs::read_to_string("data/day_2/2.txt")?;
@@ -177,8 +173,8 @@ pub fn solve() -> Result<aoc_core::Solution, Box<dyn Error>> {
         total_p2 += get_result_p2(result_hand.0, result_hand.1);
     }
 
-
-
-    Ok(aoc_core::Solution{part_1: total_p1, part_2: total_p2})
-
+    Ok(aoc_core::Solution {
+        part_1: total_p1,
+        part_2: total_p2,
+    })
 }

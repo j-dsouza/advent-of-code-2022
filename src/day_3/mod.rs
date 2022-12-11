@@ -1,13 +1,13 @@
 use core::panic;
 use std::fs;
-use std::{error::Error, collections::HashSet};
 use std::string::ParseError;
+use std::{collections::HashSet, error::Error};
 
 use crate::aoc_core::Solution;
 
 struct Rucksack {
     section_1: String,
-    section_2: String
+    section_2: String,
 }
 
 impl Rucksack {
@@ -16,7 +16,7 @@ impl Rucksack {
 
         for char in self.section_1.chars() {
             if s2_set.contains(&char) {
-                return Ok(char)
+                return Ok(char);
             }
         }
 
@@ -27,9 +27,9 @@ impl Rucksack {
         let ascii_val = l as i32;
         // println!("{}", ascii_val);
         if ascii_val < 91 {
-            return Ok((ascii_val % 65) + 27)
+            return Ok((ascii_val % 65) + 27);
         } else {
-            return Ok((ascii_val % 97) + 1)
+            return Ok((ascii_val % 97) + 1);
         }
     }
 }
@@ -37,7 +37,7 @@ impl Rucksack {
 struct ElfGroup {
     rucksack_1: String,
     rucksack_2: String,
-    rucksack_3: String
+    rucksack_3: String,
 }
 
 impl ElfGroup {
@@ -48,14 +48,13 @@ impl ElfGroup {
         for char in self.rucksack_1.chars() {
             if r2_set.contains(&char) {
                 if r3_set.contains(&char) {
-                    return Ok(char)
+                    return Ok(char);
                 }
             }
         }
         panic!("No match")
     }
 }
-
 
 fn parse_pt1(input: String) -> Result<Vec<Rucksack>, Box<dyn Error>> {
     let input_lines = input.lines();
@@ -64,10 +63,13 @@ fn parse_pt1(input: String) -> Result<Vec<Rucksack>, Box<dyn Error>> {
 
     for line in input_lines {
         let length = line.len();
-        let (s1, s2) = line.split_at(length/2);
+        let (s1, s2) = line.split_at(length / 2);
         let s1_string = s1.to_string();
         let s2_string = s2.to_string();
-        input_vec.push(Rucksack{section_1: s1_string, section_2: s2_string})
+        input_vec.push(Rucksack {
+            section_1: s1_string,
+            section_2: s2_string,
+        })
     }
 
     Ok(input_vec)
@@ -79,12 +81,13 @@ fn parse_pt2(input: String) -> Result<Vec<ElfGroup>, Box<dyn Error>> {
     let mut input_vec: Vec<ElfGroup> = vec![];
 
     for t in input_lines.chunks(3) {
-        if let [line_1, line_2, line_3] = t{
-        input_vec.push(ElfGroup {
-            rucksack_1: line_1.to_string(),
-            rucksack_2: line_2.to_string(),
-            rucksack_3: line_3.to_string()
-        })}
+        if let [line_1, line_2, line_3] = t {
+            input_vec.push(ElfGroup {
+                rucksack_1: line_1.to_string(),
+                rucksack_2: line_2.to_string(),
+                rucksack_3: line_3.to_string(),
+            })
+        }
     }
 
     Ok(input_vec)
@@ -109,5 +112,8 @@ pub fn solve() -> Result<Solution, Box<dyn Error>> {
         sum_2 += Rucksack::priority(common_char)?;
     }
 
-    Ok(Solution {part_1: sum, part_2: sum_2})
+    Ok(Solution {
+        part_1: sum,
+        part_2: sum_2,
+    })
 }
